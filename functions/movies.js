@@ -10,7 +10,6 @@ api.searchParams.set("apikey", process.env.OMDB_API_KEY);
 // we are fetching user rating info from OMDB, and insert it into each movie data
 const promisesOfMovies = movies.map((movie) => {
   api.searchParams.set("i", movie.id);
-  console.log(api)
 
   return fetch(api)
     .then((res) => res.json())

@@ -69,6 +69,29 @@
 </template>
 
 <script>
+  function addScores(element, scores) {
+    if (scores) {
+      scores.forEach((score) => {
+        const item = document.createElement("li");
+
+        const label = document.createElement("span");
+        label.classList.add("source");
+        // shorten long name in label
+        label.innerText =
+          score.Source === "Internet Movie Database" ? "IMDB" : score.Source;
+        item.appendChild(label);
+
+        const value = document.createElement("span");
+        value.innerText = score.Value;
+        console.log(score.Value)
+        item.appendChild(value);
+
+        const scoreElement = element.querySelector(".scores");
+        scoreElement.appendChild(item);
+      });
+    }
+  }
+
   async function initialise() {
     const movies = await fetch("/.netlify/functions/movies").then((response) =>
       response.json()
@@ -86,6 +109,8 @@
 
       element.querySelector("h2").innerText = movie.title;
       element.querySelector(".tagline").innerText = movie.tagline;
+
+      addScores(element, movie.scores)
 
       container.appendChild(element);
     });
