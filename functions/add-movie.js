@@ -1,7 +1,6 @@
 const { query } = require("./util/hasura");
 
 exports.handler = async (event) => {
-  const { id, title, tagline, poster } = event.body;
   // console.log("🌸", event.body);
 
   const result = await query({
