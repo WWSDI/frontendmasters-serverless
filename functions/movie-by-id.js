@@ -1,4 +1,4 @@
-const movies = require("../data/movies");
+const movies = require("../data/movies.json");
 
 exports.handler = async ({ queryStringParameters }) => {
   const { id } = queryStringParameters;
