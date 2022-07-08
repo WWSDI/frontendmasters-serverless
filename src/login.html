@@ -17,3 +17,21 @@
     width: 300px;
   }
 </style>
+
+<div data-netlify-identity-button></div>
+
+<script
+  type="text/javascript"
+  src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+></script>
+
+<script>
+  const handleLogin = (user) => {
+    // redirect user to admin page if user logged in and token exists
+    if (user && user.token) window.location.pathname = "/admin";
+  };
+  // when user visits login page initially, check their login status; if logged-in already, then redirect them to admin page
+  window.netlifyIdentity.on("init", handleLogin);
+  // when user attempts to login; if successful, then redirect them to admin page
+  window.netlifyIdentity.on("login", handleLogin);
+</script>
