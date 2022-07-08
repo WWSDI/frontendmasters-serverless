@@ -78,15 +78,31 @@
   <button type="submit">Add New Movie</button>
 </form>
 
+<script
+  type="text/javascript"
+  src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+></script>
+
 <script>
   const form = document.querySelector("#add-movie");
 
+  const handleLogout = (user) => {
+    if (!user || !user.token) window.location.pathname = "/login/";
+  };
+
+  window.netlifyIdentity.on("init", handleLogout);
+  window.netlifyIdentity.on("logout", handleLogout);
+
   async function handleSubmit(event) {
     event.preventDefault();
-
+    
+    const { access_token } = window.netlifyIdentity.currentUser().token
     const formData = new FormData(form);
     const result = await fetch("/.netlify/functions/add-movie", {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
       body: JSON.stringify({
         id: formData.get("id"),
         title: formData.get("title"),
@@ -102,17 +118,4 @@
   }
 
   form.addEventListener("submit", handleSubmit);
-</script>
-
-
-
-<script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-
-<script>
-  const handleLogout = user => {
-    if(!user || !user.token) window.location.pathname = '/login/'
-  }
-
-  window.netlifyIdentity.on('init', handleLogout)
-  window.netlifyIdentity.on('logout', handleLogout)
 </script>
